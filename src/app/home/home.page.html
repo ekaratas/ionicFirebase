@@ -1,20 +1,39 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Ürün Takibi
     </ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="yeniKayit()" [disabled]="!deger.urun || !deger.adet">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-item>
+    <ion-label>Ürün Adı:</ion-label>
+    <ion-input placeholder="Ürün" [(ngModel)]="deger.urun" autofocus ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Adet:</ion-label>
+    <ion-input type="number" placeholder="Adet/Kg" [(ngModel)]="deger.adet"></ion-input>
+  </ion-item>
+<br>
+<ion-card *ngFor="let kayit of kayitlar">
+  <ion-item>
+    <ion-label>ID : {{kayit.payload.doc.id}}</ion-label>
+  </ion-item>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card-content>
+    <ion-label>Ürün Adı: {{kayit.payload.doc.data().urun}}</ion-label>
+  </ion-card-content>
+  <ion-card-content>
+    <ion-label>Adet: {{kayit.payload.doc.data().adet}}</ion-label>
+  </ion-card-content>
+  <ion-card-content>
+    <ion-label>Eklenme Tarihi: {{kayit.payload.doc.data().tarih * 1000 | date:'dd:MM:yyyy HH:mm:ss'}}</ion-label>
+  </ion-card-content>
+</ion-card>
 </ion-content>
