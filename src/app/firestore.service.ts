@@ -11,12 +11,23 @@ export class FirestoreService {
 
 yeniKayit(kayit)
 {
-  return this.angularFirestore.collection('deneme').add(kayit);
+  return this.angularFirestore.collection('DenemeListesi').add(kayit);
 }
 
 kayitlariOku(alan,yon)
 {
-  return this.angularFirestore.collection('deneme', sirala => sirala.orderBy(alan,yon)).snapshotChanges();
+  return this.angularFirestore.collection('DenemeListesi', sirala => sirala.orderBy(alan,yon)).snapshotChanges();
 }
+
+kayitGuncelle(id, deger)
+{
+  this.angularFirestore.doc('DenemeListesi/'+ id).update(deger);
+}
+
+kayitSil(id)
+{
+  this.angularFirestore.doc('DenemeListesi/' + id).delete();
+}
+
 
 }

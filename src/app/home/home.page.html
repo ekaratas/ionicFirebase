@@ -21,6 +21,9 @@
     <ion-input type="number" placeholder="Adet/Kg" [(ngModel)]="deger.adet"></ion-input>
   </ion-item>
 <br>
+
+
+
 <ion-card *ngFor="let kayit of kayitlar">
   <ion-item>
     <ion-label>ID : {{kayit.payload.doc.id}}</ion-label>
@@ -35,5 +38,14 @@
   <ion-card-content>
     <ion-label>Eklenme Tarihi: {{kayit.payload.doc.data().tarih * 1000 | date:'dd:MM:yyyy HH:mm:ss'}}</ion-label>
   </ion-card-content>
+  <ion-card-content>
+  <ion-button shape="round" color="success" size="small" (click)="presentAlertPrompt(kayit)">
+    <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+
+  </ion-button>
+  <ion-button shape="round" color="danger" size="small" (click)="presentAlertConfirm(kayit.payload.doc.id)">
+    <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+</ion-button>
+</ion-card-content>
 </ion-card>
 </ion-content>
