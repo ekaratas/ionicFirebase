@@ -9,24 +9,26 @@ export class FirestoreService {
 
   constructor(public angularFirestore:AngularFirestore) { }
 
-yeniKayit(kayit)
+yeniKayit(kayit,user)
 {
-  return this.angularFirestore.collection('DenemeListesi').add(kayit);
+  //return this.angularFirestore.collection('DenemeListesi').add(kayit);
+  return this.angularFirestore.doc<any>('kullanicilar/'+user).collection('AlisverisListesi').add(kayit);
 }
 
-kayitlariOku(alan,yon)
+kayitlariOku(alan,yon,user)
 {
-  return this.angularFirestore.collection('DenemeListesi', sirala => sirala.orderBy(alan,yon)).snapshotChanges();
+  //return this.angularFirestore.collection('DenemeListesi', sirala => sirala.orderBy(alan,yon)).snapshotChanges();
+return this.angularFirestore.doc<any>('kullanicilar/'+user).collection('AlisverisListesi', sirala => sirala.orderBy(alan,yon)).snapshotChanges();
 }
 
-kayitGuncelle(id, deger)
+kayitGuncelle(id, deger, user)
 {
-  this.angularFirestore.doc('DenemeListesi/'+ id).update(deger);
+  this.angularFirestore.doc('kullanicilar/'+user+'/AlisverisListesi/'+id).update(deger);
 }
 
-kayitSil(id)
+kayitSil(id,user)
 {
-  this.angularFirestore.doc('DenemeListesi/' + id).delete();
+  this.angularFirestore.doc('kullanicilar/'+user+'/AlisverisListesi/'+id).delete();
 }
 
 

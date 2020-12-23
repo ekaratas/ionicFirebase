@@ -1,0 +1,29 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Geri"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Kayıt</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+<ion-item>
+  <ion-label position="floating">Ad Soyad</ion-label>
+  <ion-input type="text" [(ngModel)]="userData.name"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label position="floating">Eposta</ion-label>
+  <ion-input type="text" [(ngModel)]="userData.email"></ion-input>
+  </ion-item>
+<ion-item>
+  <ion-label position="floating">Şifre</ion-label>
+  <ion-input type="password" [(ngModel)]="userData.password"></ion-input>
+  </ion-item>
+
+  <ion-button color="success" expand="full" (click)="kayit()">Kayıt Ol</ion-button>
+
+  </ion-list>
+</ion-content>

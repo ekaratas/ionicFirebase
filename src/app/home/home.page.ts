@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { FirestoreService } from '../firestore.service';
 import { Urun } from '../urun-model';
 import { AlertController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-home',
@@ -12,10 +16,25 @@ export class HomePage {
 
   deger:Urun = {urun:null, adet:null, tarih:null};
   kayitlar:any;
+  userID:string;
 
-  constructor(public firestoreService:FirestoreService, public alertController:AlertController) {
+  constructor(private firestoreService:FirestoreService, private router:Router, private alertController:AlertController, private angularFireAuth:AngularFireAuth) {
+    //Gerçek kullanım için buna gerek olmaz, kullanıcı login ya da register olduğu zaman UID, Ad Soyad, Eposta vb. bilgileri Storage'a atıp oradan gerektiği zaman çekmek en doğru yöntemdir.
+    this.angularFireAuth.authState.subscribe(kullanici => {
+      if (kullanici) {
+        this.userID = kullanici.uid;
+        console.log(this.userID);
+        this.listele();
+      } else {
+        this.router.navigateByUrl('/welcome');
+      }
+    })
 
-    this.firestoreService.kayitlariOku('tarih','desc').subscribe(sonuc => {this.kayitlar = sonuc; console.log(sonuc); }, err => { console.log(err);});
+  }
+
+  listele()
+  {
+    this.firestoreService.kayitlariOku('tarih','desc',this.userID).subscribe(sonuc => {this.kayitlar = sonuc; console.log(sonuc); }, err => { console.log(err);});
 
   }
 
@@ -23,7 +42,7 @@ export class HomePage {
   {
     this.deger.tarih = Math.floor(Date.now() /  1000);
 
-    this.firestoreService.yeniKayit(this.deger).then(sonuc=> { 
+    this.firestoreService.yeniKayit(this.deger,this.userID).then(sonuc=> { 
       console.log(sonuc.id); 
       this.deger.urun = null;
       this.deger.adet = null;
@@ -33,14 +52,14 @@ export class HomePage {
 
   kayitGuncelle(id, deger)
   {
-    this.firestoreService.kayitGuncelle(id, deger);
+    this.firestoreService.kayitGuncelle(id, deger, this.userID);
     console.log(deger)
 
   }
 
   kayitSil(id)
   {
-    this.firestoreService.kayitSil(id);
+    this.firestoreService.kayitSil(id,this.userID);
     console.log('Kayıt Silindi!')
 
   }
